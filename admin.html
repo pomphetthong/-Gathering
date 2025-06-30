@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ผู้ดูแลระบบ - ระบบลงทะเบียนชมรม</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <style>
+    .stats-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 15px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .stats-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stats-label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .table-container {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    .search-box {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .status-badge {
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-approved { background: #d1edff; color: #0c5460; }
+    .status-rejected { background: #f8d7da; color: #721c24; }
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 0.8rem;
+    }
+    .applicant-info {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .applicant-name {
+      font-weight: 600;
+      color: #495057;
+    }
+    .applicant-details {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center gap-2 pointer" href="index.html">
+        <i class="bi bi-megaphone-fill" style="font-size:1.7rem;color:#ff9b05;"></i>
+        <span class="fw-bold" style="color:#53a8ed;font-size:1.35rem;letter-spacing:1px;">ประชาสัมพันธ์ชมรม</span>
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+          <li class="nav-item">
+            <a class="nav-link pointer d-flex align-items-center gap-1" href="index.html">
+              <i class="bi bi-house-door-fill"></i> หน้าหลัก
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer d-flex align-items-center gap-1 active" href="#">
+              <i class="bi bi-person-gear"></i> ผู้ดูแล
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="admin" class="container mt-4" style="max-width:1200px; margin-top: 90px;">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i>ผู้ดูแลระบบ - จัดการผู้สมัคร</h2>
+      </div>
+    </div>
+
+    <!-- สถิติ -->
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="stats-card text-center">
+          <div class="stats-number" id="totalApplicants">0</div>
+          <div class="stats-label">ผู้สมัครทั้งหมด</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card text-center" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <div class="stats-number" id="pendingApplicants">0</div>
+          <div class="stats-label">รอดำเนินการ</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card text-center" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+          <div class="stats-number" id="approvedApplicants">0</div>
+          <div class="stats-label">ผ่าน</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card text-center" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+          <div class="stats-number" id="rejectedApplicants">0</div>
+          <div class="stats-label">ไม่ผ่าน</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- กล่องค้นหาและกรอง -->
+    <div class="search-box">
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-search me-1"></i>ค้นหาชื่อ</label>
+          <input type="text" class="form-control" id="searchName" placeholder="พิมพ์ชื่อเพื่อค้นหา...">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label"><i class="bi bi-funnel me-1"></i>กรองตามสถานะ</label>
+          <select class="form-select" id="filterStatus">
+            <option value="">ทุกสถานะ</option>
+            <option value="0">รอดำเนินการ</option>
+            <option value="1">ผ่าน</option>
+            <option value="2">ไม่ผ่าน</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label"><i class="bi bi-collection me-1"></i>กรองตามชมรม</label>
+          <select class="form-select" id="filterClub">
+            <option value="">ทุกชมรม</option>
+          </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+            <i class="bi bi-arrow-clockwise me-1"></i>ล้าง
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ตารางข้อมูล -->
+    <div class="table-container">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0"><i class="bi bi-table me-2"></i>รายชื่อผู้สมัคร</h5>
+        <div class="action-buttons">
+          <button class="btn btn-info btn-sm" onclick="showSelectClubModal()">
+            <i class="bi bi-people"></i> ดูแยกตามชมรม
+          </button>
+          <button class="btn btn-success btn-sm" onclick="exportToCSV()">
+            <i class="bi bi-download"></i> ส่งออก CSV
+          </button>
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-hover" id="applicantsTable">
+          <thead class="table-dark">
+            <tr>
+              <th>ลำดับ</th>
+              <th>ชื่อ-นามสกุล</th>
+              <th>ห้อง</th>
+              <th>ชมรม</th>
+              <th>เหตุผลการสมัคร</th>
+              <th>สถานะ</th>
+              <th>วันที่สมัคร</th>
+              <th>การดำเนินการ</th>
+            </tr>
+          </thead>
+          <tbody id="adminApplicantList">
+            <!-- รายชื่อจะถูกเพิ่มที่นี่ -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal เลือกชมรม -->
+  <div class="modal fade" id="selectClubModal" tabindex="-1" aria-labelledby="selectClubModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-info bg-gradient text-white">
+          <h5 class="modal-title" id="selectClubModalLabel"><i class="bi bi-list-ul me-2"></i>เลือกชมรม</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <select class="form-select" id="clubSelect">
+            <option value="">-- เลือกชมรม --</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="showClubModalFromSelect()">ดูรายชื่อ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal รายชื่อแยกตามชมรม -->
+  <div class="modal fade" id="clubModal" tabindex="-1" aria-labelledby="clubModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-info bg-gradient text-white">
+          <h5 class="modal-title" id="clubModalLabel"><i class="bi bi-people me-2"></i>รายชื่อผู้สมัครแยกตามชมรม</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="clubListBody">
+          <!-- รายชื่อแยกชมรม -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal แก้ไขข้อมูลผู้สมัคร -->
+  <div class="modal fade" id="editApplicantModal" tabindex="-1" aria-labelledby="editApplicantModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-warning bg-gradient">
+          <h5 class="modal-title" id="editApplicantModalLabel"><i class="bi bi-pencil-square me-2"></i>แก้ไขข้อมูลผู้สมัคร</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editApplicantForm">
+            <input type="hidden" id="editId">
+            <div class="mb-3">
+              <label for="editName" class="form-label">ชื่อจริง</label>
+              <input type="text" class="form-control" id="editName" required>
+            </div>
+            <div class="mb-3">
+              <label for="editRoom" class="form-label">ห้อง</label>
+              <input type="text" class="form-control" id="editRoom" required>
+            </div>
+            <div class="mb-3">
+              <label for="editSop" class="form-label">เหตุผลการสมัคร</label>
+              <textarea class="form-control" id="editSop" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="editClub" class="form-label">ชมรม</label>
+              <input type="text" class="form-control" id="editClub" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-warning" onclick="submitEditApplicant()">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal ยืนยันการลบ -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger bg-gradient text-white">
+          <h5 class="modal-title" id="confirmDeleteModalLabel"><i class="bi bi-trash me-2"></i>ยืนยันการลบ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>คุณต้องการลบผู้สมัครคนนี้ใช่หรือไม่?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">ลบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal แสดงเหตุผลการสมัคร -->
+  <div class="modal fade" id="viewSopModal" tabindex="-1" aria-labelledby="viewSopModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-info bg-gradient">
+          <h5 class="modal-title" id="viewSopModalLabel"><i class="bi bi-chat-left-text me-2"></i>เหตุผลการสมัคร</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="viewSopContent" style="white-space: pre-line;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ดึงข้อมูลจากฐานข้อมูล
+    let applicants = [];
+    let statuses = ['รอดำเนินการ', 'ผ่าน', 'ไม่ผ่าน'];
+    let filteredApplicants = [];
+
+    // ฟังก์ชันดึงข้อมูลผู้สมัคร
+    function loadApplicants() {
+      fetch('php/get_applicants.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            applicants = data.data;
+            filteredApplicants = [...applicants];
+            updateStats();
+            updateAdminApplicantList();
+            updateClubFilter();
+          } else {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    function updateStats() {
+      const total = applicants.length;
+      const pending = applicants.filter(app => app.status == 0).length;
+      const approved = applicants.filter(app => app.status == 1).length;
+      const rejected = applicants.filter(app => app.status == 2).length;
+
+      document.getElementById('totalApplicants').textContent = total;
+      document.getElementById('pendingApplicants').textContent = pending;
+      document.getElementById('approvedApplicants').textContent = approved;
+      document.getElementById('rejectedApplicants').textContent = rejected;
+    }
+
+    function updateClubFilter() {
+      const clubFilter = document.getElementById('filterClub');
+      const clubs = [...new Set(applicants.map(app => app.club))];
+      
+      clubFilter.innerHTML = '<option value="">ทุกชมรม</option>';
+      clubs.forEach(club => {
+        clubFilter.innerHTML += `<option value="${club}">${club}</option>`;
+      });
+    }
+
+    function filterApplicants() {
+      const searchName = document.getElementById('searchName').value.toLowerCase();
+      const filterStatus = document.getElementById('filterStatus').value;
+      const filterClub = document.getElementById('filterClub').value;
+
+      filteredApplicants = applicants.filter(app => {
+        const nameMatch = app.name.toLowerCase().includes(searchName);
+        const statusMatch = filterStatus === '' || app.status == filterStatus;
+        const clubMatch = filterClub === '' || app.club === filterClub;
+        
+        return nameMatch && statusMatch && clubMatch;
+      });
+
+      updateAdminApplicantList();
+    }
+
+    function clearFilters() {
+      document.getElementById('searchName').value = '';
+      document.getElementById('filterStatus').value = '';
+      document.getElementById('filterClub').value = '';
+      filteredApplicants = [...applicants];
+      updateAdminApplicantList();
+    }
+
+    function updateAdminApplicantList() {
+      const adminList = document.getElementById('adminApplicantList');
+      adminList.innerHTML = '';
+      
+      if (filteredApplicants.length === 0) {
+        adminList.innerHTML = `
+          <tr>
+            <td colspan="8" class="text-center text-muted py-4">
+              <i class="bi bi-inbox" style="font-size: 2rem;"></i><br>
+              ไม่พบข้อมูลผู้สมัคร
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filteredApplicants.forEach((app, index) => {
+        const tr = document.createElement('tr');
+        const statusClass = app.status == 0 ? 'status-pending' : (app.status == 1 ? 'status-approved' : 'status-rejected');
+        const createdDate = new Date(app.created_at).toLocaleDateString('th-TH');
+        
+        tr.innerHTML = `
+          <td class="text-center">${index + 1}</td>
+          <td>
+            <div class="applicant-name">${app.name}</div>
+            <div class="applicant-details">ห้อง: ${app.room}</div>
+          </td>
+          <td class="text-center">${app.room}</td>
+          <td><span class="badge bg-primary">${app.club}</span></td>
+          <td>
+            <div class="text-truncate pointer" style="max-width: 200px; color: #0d6efd; text-decoration: underline;" title="คลิกเพื่อดูเหตุผลการสมัคร" onclick="showSopModal(${JSON.stringify(app.sop)})">
+              ${app.sop}
+            </div>
+          </td>
+          <td class="text-center">
+            <span class="status-badge ${statusClass}">${statuses[app.status]}</span>
+          </td>
+          <td class="text-center">${createdDate}</td>
+          <td>
+            <div class="action-buttons">
+              <select class='form-select form-select-sm' onchange='changeStatus(${app.id}, this.value)' style="width: 120px;">
+                <option value='0' ${app.status==0?'selected':''}>รอดำเนินการ</option>
+                <option value='1' ${app.status==1?'selected':''}>ผ่าน</option>
+                <option value='2' ${app.status==2?'selected':''}>ไม่ผ่าน</option>
+              </select>
+              <button class="btn btn-warning btn-sm" onclick='showEditModal(${JSON.stringify(app)})'><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-danger btn-sm" onclick='deleteApplicant(${app.id})'><i class="bi bi-trash"></i></button>
+            </div>
+          </td>
+        `;
+        adminList.appendChild(tr);
+      });
+    }
+
+    function changeStatus(id, val) {
+      fetch('php/update_status.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id, status: parseInt(val) })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          loadApplicants(); // โหลดข้อมูลใหม่
+        } else {
+          alert('เกิดข้อผิดพลาด: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+      });
+    }
+
+    function exportToCSV() {
+      const headers = ['ลำดับ', 'ชื่อ-นามสกุล', 'ห้อง', 'ชมรม', 'เหตุผลการสมัคร', 'สถานะ', 'วันที่สมัคร'];
+      const csvContent = [
+        headers.join(','),
+        ...filteredApplicants.map((app, index) => [
+          index + 1,
+          app.name,
+          app.room,
+          app.club,
+          `"${app.sop}"`,
+          statuses[app.status],
+          new Date(app.created_at).toLocaleDateString('th-TH')
+        ].join(','))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `รายชื่อผู้สมัคร_${new Date().toLocaleDateString('th-TH')}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function showSelectClubModal() {
+      const clubSelect = document.getElementById('clubSelect');
+      const clubs = [...new Set(applicants.map(app => app.club))];
+      
+      clubSelect.innerHTML = '<option value="">-- เลือกชมรม --</option>';
+      clubs.forEach(club => {
+        clubSelect.innerHTML += `<option value="${club}">${club}</option>`;
+      });
+      
+      const modal = new bootstrap.Modal(document.getElementById('selectClubModal'));
+      modal.show();
+    }
+
+    function showClubModalFromSelect() {
+      const club = document.getElementById('clubSelect').value;
+      if(!club) return;
+      
+      const clubListBody = document.getElementById('clubListBody');
+      const clubApplicants = applicants.filter(app => app.club === club);
+      
+      let html = `
+        <h5 class='mb-3'><i class='bi bi-people'></i> ${club} (${clubApplicants.length} คน)</h5>
+        <div class="row">
+      `;
+      
+      if(clubApplicants.length === 0) {
+        html = '<p class="text-muted">ยังไม่มีผู้สมัครในชมรมนี้</p>';
+      } else {
+        clubApplicants.forEach((app, index) => {
+          const statusClass = app.status == 0 ? 'status-pending' : (app.status == 1 ? 'status-approved' : 'status-rejected');
+          html += `
+            <div class="col-md-6 mb-2">
+              <div class="applicant-info">
+                <div class="applicant-name">${index + 1}. ${app.name}</div>
+                <div class="applicant-details">
+                  ห้อง: ${app.room} | 
+                  <span class="status-badge ${statusClass}">${statuses[app.status]}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+      }
+      
+      clubListBody.innerHTML = html;
+      const selectModal = bootstrap.Modal.getInstance(document.getElementById('selectClubModal'));
+      selectModal.hide();
+      const modal = new bootstrap.Modal(document.getElementById('clubModal'));
+      modal.show();
+    }
+
+    let deleteId = null;
+    function deleteApplicant(id) {
+      deleteId = id;
+      const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+      modal.show();
+    }
+
+    document.getElementById('confirmDeleteBtn').onclick = function() {
+      if(!deleteId) return;
+      fetch('php/delete_applicant.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: deleteId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+          modal.hide();
+          loadApplicants();
+        } else {
+          alert('เกิดข้อผิดพลาด: ' + data.message);
+        }
+      })
+      .catch(err => {
+        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+      });
+    }
+
+    function showEditModal(app) {
+      document.getElementById('editId').value = app.id;
+      document.getElementById('editName').value = app.name;
+      document.getElementById('editRoom').value = app.room;
+      document.getElementById('editSop').value = app.sop;
+      document.getElementById('editClub').value = app.club;
+      const modal = new bootstrap.Modal(document.getElementById('editApplicantModal'));
+      modal.show();
+    }
+
+    function submitEditApplicant() {
+      const id = document.getElementById('editId').value;
+      const name = document.getElementById('editName').value.trim();
+      const room = document.getElementById('editRoom').value.trim();
+      const sop = document.getElementById('editSop').value.trim();
+      const club = document.getElementById('editClub').value.trim();
+      if (!name || !room || !sop || !club) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        return;
+      }
+      fetch('php/edit_applicant.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, name, room, sop, club })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editApplicantModal'));
+          modal.hide();
+          loadApplicants();
+        } else {
+          alert('เกิดข้อผิดพลาด: ' + data.message);
+        }
+      })
+      .catch(err => {
+        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+      });
+    }
+
+    function showSopModal(sop) {
+      document.getElementById('viewSopContent').textContent = sop;
+      const modal = new bootstrap.Modal(document.getElementById('viewSopModal'));
+      modal.show();
+    }
+
+    // Event listeners
+    document.getElementById('searchName').addEventListener('input', filterApplicants);
+    document.getElementById('filterStatus').addEventListener('change', filterApplicants);
+    document.getElementById('filterClub').addEventListener('change', filterApplicants);
+
+    // โหลดข้อมูลเมื่อเข้า
+    loadApplicants();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
