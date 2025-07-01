@@ -43,6 +43,7 @@ services:
     volumes:
       - ./public:/var/www/html
       - ./src/php:/var/www/html/php
+      - ./assets:/var/www/html/assets
     depends_on:
       - mysql
     networks:
