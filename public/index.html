@@ -178,76 +178,23 @@
         <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i>รายชื่อผู้สมัครชมรม</h2>
       </div>
     </div>
-
-    <!-- สถิติ -->
-    <div class="row mb-4">
-      <div class="col-md-3">
-        <div class="stats-card text-center">
-          <div class="stats-number" id="totalApplicants">0</div>
-          <div class="stats-label">ผู้สมัครทั้งหมด</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="stats-card text-center" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-          <div class="stats-number" id="pendingApplicants">0</div>
-          <div class="stats-label">รอดำเนินการ</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="stats-card text-center" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-          <div class="stats-number" id="approvedApplicants">0</div>
-          <div class="stats-label">ผ่าน</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="stats-card text-center" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-          <div class="stats-number" id="rejectedApplicants">0</div>
-          <div class="stats-label">ไม่ผ่าน</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- กล่องค้นหาและกรอง -->
-    <div class="search-box">
+    <!-- กล่องค้นหา -->
+    <div class="search-box mb-3">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label class="form-label"><i class="bi bi-search me-1"></i>ค้นหาชื่อ</label>
           <input type="text" class="form-control" id="searchName" placeholder="พิมพ์ชื่อเพื่อค้นหา...">
         </div>
-        <div class="col-md-3">
-          <label class="form-label"><i class="bi bi-funnel me-1"></i>กรองตามสถานะ</label>
-          <select class="form-select" id="filterStatus">
-            <option value="">ทุกสถานะ</option>
-            <option value="0">รอดำเนินการ</option>
-            <option value="1">ผ่าน</option>
-            <option value="2">ไม่ผ่าน</option>
-          </select>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <label class="form-label"><i class="bi bi-collection me-1"></i>กรองตามชมรม</label>
           <select class="form-select" id="filterClub">
             <option value="">ทุกชมรม</option>
           </select>
         </div>
-        <div class="col-md-2 d-flex align-items-end">
-          <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
-            <i class="bi bi-arrow-clockwise me-1"></i>ล้าง
-          </button>
-        </div>
       </div>
     </div>
-
     <!-- ตารางข้อมูล -->
     <div class="table-container">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0"><i class="bi bi-table me-2"></i>รายชื่อผู้สมัครทั้งหมด</h5>
-        <div class="action-buttons">
-          <button class="btn btn-info btn-sm" onclick="showSelectClubModal()">
-            <i class="bi bi-people"></i> ดูแยกตามชมรม
-          </button>
-        </div>
-      </div>
-      
       <div class="table-responsive">
         <table class="table table-hover" id="applicantsTable">
           <thead class="table-dark">
@@ -423,7 +370,6 @@
           if (data.success) {
             applicants = data.data;
             filteredApplicants = [...applicants];
-            updateStats();
             updateApplicantList();
             updateClubFilter();
           } else {
@@ -433,52 +379,6 @@
         .catch(error => {
           console.error('Error:', error);
         });
-    }
-
-    function updateStats() {
-      const total = applicants.length;
-      const pending = applicants.filter(app => app.status == 0).length;
-      const approved = applicants.filter(app => app.status == 1).length;
-      const rejected = applicants.filter(app => app.status == 2).length;
-
-      document.getElementById('totalApplicants').textContent = total;
-      document.getElementById('pendingApplicants').textContent = pending;
-      document.getElementById('approvedApplicants').textContent = approved;
-      document.getElementById('rejectedApplicants').textContent = rejected;
-    }
-
-    function updateClubFilter() {
-      const clubFilter = document.getElementById('filterClub');
-      const clubs = [...new Set(applicants.map(app => app.club))];
-      
-      clubFilter.innerHTML = '<option value="">ทุกชมรม</option>';
-      clubs.forEach(club => {
-        clubFilter.innerHTML += `<option value="${club}">${club}</option>`;
-      });
-    }
-
-    function filterApplicants() {
-      const searchName = document.getElementById('searchName').value.toLowerCase();
-      const filterStatus = document.getElementById('filterStatus').value;
-      const filterClub = document.getElementById('filterClub').value;
-
-      filteredApplicants = applicants.filter(app => {
-        const nameMatch = app.name.toLowerCase().includes(searchName);
-        const statusMatch = filterStatus === '' || app.status == filterStatus;
-        const clubMatch = filterClub === '' || app.club === filterClub;
-        
-        return nameMatch && statusMatch && clubMatch;
-      });
-
-      updateApplicantList();
-    }
-
-    function clearFilters() {
-      document.getElementById('searchName').value = '';
-      document.getElementById('filterStatus').value = '';
-      document.getElementById('filterClub').value = '';
-      filteredApplicants = [...applicants];
-      updateApplicantList();
     }
 
     function updateApplicantList() {
@@ -637,14 +537,31 @@
       modal.show();
     }
 
+    function updateClubFilter() {
+      const clubFilter = document.getElementById('filterClub');
+      const clubs = [...new Set(applicants.map(app => app.club))];
+      clubFilter.innerHTML = '<option value="">ทุกชมรม</option>';
+      clubs.forEach(club => {
+        clubFilter.innerHTML += `<option value="${club}">${club}</option>`;
+      });
+    }
+
+    function filterApplicants() {
+      const searchName = document.getElementById('searchName').value.toLowerCase();
+      const filterClub = document.getElementById('filterClub').value;
+      filteredApplicants = applicants.filter(app => {
+        const nameMatch = app.name.toLowerCase().includes(searchName);
+        const clubMatch = filterClub === '' || app.club === filterClub;
+        return nameMatch && clubMatch;
+      });
+      updateApplicantList();
+    }
+
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
       const searchName = document.getElementById('searchName');
-      const filterStatus = document.getElementById('filterStatus');
       const filterClub = document.getElementById('filterClub');
-      
       if(searchName) searchName.addEventListener('input', filterApplicants);
-      if(filterStatus) filterStatus.addEventListener('change', filterApplicants);
       if(filterClub) filterClub.addEventListener('change', filterApplicants);
     });
   </script>

@@ -71,5 +71,5 @@ networks:
 # # เริ่มต้น services พร้อม build ใหม่
 # docker compose up --build -d
 
-# http://localhost/index.html
-# http://localhost/admin.html
+# http://localhost/index.html  
+# http://localhost/admin.html 
