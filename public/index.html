@@ -70,236 +70,418 @@
       color: #6c757d;
       font-size: 0.9rem;
     }
+    .sidebar {
+      width: 80px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 16px 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      height: 95vh;
+      margin: 16px 0 16px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1100;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+    .sidebar li {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 18px 0;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .sidebar .icon {
+      width: 48px;
+      height: 48px;
+      background: #f4f7fb;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #7b8ca7;
+      transition: background 0.2s, color 0.2s;
+    }
+    .sidebar li.active .icon {
+      background: #2563eb;
+      color: #fff;
+    }
+    .sidebar .label {
+      background: #e8f0fe;
+      color: #2563eb;
+      font-weight: 500;
+      border-radius: 16px;
+      padding: 6px 18px;
+      margin-left: 12px;
+      font-size: 1.1rem;
+      display: inline-block;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+    }
+    .sidebar li:not(.active) .label {
+      display: none;
+    }
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+    }
+    .main-content {
+      margin-left: 110px;
+    }
+    @media (max-width: 900px) {
+      .main-content { margin-left: 0; }
+    }
+    .custom-navbar { display: none !important; }
+    body {
+      background: linear-gradient(135deg, #e3f0ff 0%, #f6fbff 100%);
+    }
+    .navbar {
+      background: linear-gradient(90deg, #b3e0ff 60%, #e3f0ff 100%) !important;
+      box-shadow: 0 2px 12px rgba(52,152,253,0.07);
+    }
+    .navbar .navbar-brand,
+    .navbar .navbar-brand span {
+      color: #2196f3 !important;
+    }
+    .navbar .nav-item,
+    .navbar .nav-item i {
+      color: #2196f3 !important;
+      font-weight: 500;
+      transition: color 0.18s;
+    }
+    .navbar .nav-item:hover,
+    .navbar .nav-item:active {
+      color: #1565c0 !important;
+    }
+    .navbar-toggler {
+      border: none;
+      background: #b3e0ff;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .navbar-toggler:focus,
+    .navbar-toggler:hover {
+      background: #90caf9;
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(33,150,243,0.8)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    .offcanvas-header,
+    .offcanvas-body {
+      background: #e3f0ff;
+    }
+    .offcanvas-title {
+      color: #1976d2;
+    }
+    .btn-close {
+      filter: invert(40%) sepia(80%) saturate(300%) hue-rotate(180deg);
+    }
+    .navbar {
+      min-height: 64px;
+    }
+    @media (max-width: 991.98px) {
+      .navbar {
+        min-height: 56px;
+      }
+      .container {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+    #clubApplicantsModal .table-responsive {
+      overflow-x: auto;
+      min-width: 600px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    #clubApplicantsModal table {
+      min-width: 600px;
+      max-width: 800px;
+      table-layout: fixed;
+    }
+    #clubApplicantsModal th, #clubApplicantsModal td {
+      white-space: nowrap;
+      font-size: 1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #clubApplicantsModal th:nth-child(1),
+    #clubApplicantsModal td:nth-child(1) {
+      width: 60px;
+      text-align: center;
+    }
+    #clubApplicantsModal th:nth-child(2),
+    #clubApplicantsModal td:nth-child(2) {
+      width: 180px;
+    }
+    #clubApplicantsModal th:nth-child(3),
+    #clubApplicantsModal td:nth-child(3) {
+      width: 100px;
+      text-align: center;
+    }
+    #clubApplicantsModal th:nth-child(4),
+    #clubApplicantsModal td:nth-child(4) {
+      width: 100px;
+      text-align: center;
+    }
+    #clubApplicantsModal th:nth-child(5),
+    #clubApplicantsModal td:nth-child(5) {
+      width: 120px;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      #clubApplicantsModal .table-responsive {
+        min-width: unset;
+        max-width: 100vw;
+      }
+      #clubApplicantsModal table {
+        min-width: 500px;
+        max-width: 100vw;
+        font-size: 0.90rem;
+      }
+      #clubApplicantsModal th, #clubApplicantsModal td {
+        font-size: 0.90rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+  <nav class="navbar navbar-expand-lg shadow-sm" style="background:#fff;">
     <div class="container-fluid">
-      <a class="navbar-brand d-flex align-items-center gap-2 pointer" onclick="showPage('home')">
+      <span class="navbar-brand d-flex align-items-center gap-2" style="cursor:pointer;">
         <i class="bi bi-megaphone-fill" style="font-size:1.7rem;color:#ff9b05;"></i>
-        <span class="fw-bold" style="color:#53a8ed;font-size:1.35rem;letter-spacing:1px;">ประชาสัมพันธ์ชมรม</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="fw-bold" style="color:#b0d7ff;font-size:1.35rem;letter-spacing:1px;">ประชาสัมพันธ์ชมรม</span>
+      </span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-controls="mobileNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-center gap-2">
-          <li class="nav-item">
-            <a class="nav-link pointer d-flex align-items-center gap-1" onclick="showPage('home')" data-bs-dismiss="offcanvas">
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="mobileNavLabel">เมนู</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav ms-auto align-items-start gap-3" style="font-size:1.08rem;">
+            <li class="nav-item d-flex align-items-center gap-2" style="color:#444;cursor:pointer;" onclick="showPage('home')" data-bs-dismiss="offcanvas">
               <i class="bi bi-house-door-fill"></i> หน้าหลัก
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pointer d-flex align-items-center gap-1" onclick="showPage('register')" data-bs-dismiss="offcanvas">
+            </li>
+            <li class="nav-item d-flex align-items-center gap-2" style="color:#444;cursor:pointer;" onclick="showPage('register')" data-bs-dismiss="offcanvas">
               <i class="bi bi-pencil-square"></i> ลงทะเบียน
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pointer d-flex align-items-center gap-1" onclick="showPage('list')" data-bs-dismiss="offcanvas">
+            </li>
+            <li class="nav-item d-flex align-items-center gap-2" style="color:#444;cursor:pointer;" onclick="showPage('list')" data-bs-dismiss="offcanvas">
               <i class="bi bi-list-ul"></i> รายชื่อผู้สมัคร
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pointer d-flex align-items-center gap-1" onclick="showPage('detail')" data-bs-dismiss="offcanvas">
+            </li>
+            <li class="nav-item d-flex align-items-center gap-2" style="color:#444;cursor:pointer;" onclick="showPage('detail')" data-bs-dismiss="offcanvas">
               <i class="bi bi-info-circle-fill"></i> รายละเอียด
-            </a>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
-
-  <!-- หน้าแรก -->
-  <div id="home" class="container mt-4" style="margin-top: 90px;">
-    <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80" class="big-image rounded shadow" alt="big club image">
-    <div class="text-center">
-      <h1>ระบบลงทะเบียนชมรม</h1>
-      <p>เลือกชมรมที่คุณสนใจและสมัครได้เลย!</p>
-      <button class="btn btn-success btn-lg" onclick="showPage('register')">ลงทะเบียน</button>
-    </div>
-    <!-- จบเนื้อหาหลักหน้าแรก -->
-    <div class="about-box card shadow-sm mx-auto mb-3" style="max-width: 600px; border-radius: 1.2rem;">
-      <div class="card-body">
-        <h5 class="card-title mb-2" style="color:#ff6600;"><i class="bi bi-info-circle-fill me-1"></i> เกี่ยวกับระบบลงทะเบียนชมรม</h5>
-        <p class="card-text mb-1">ประชาสัมพันธ์ชมรมให้นักเรียนที่มีความสนใจด้าน it<br> สามารถสมัครเข้าชมรมด้าน it ต้างๆที่ทางเราจัดขึ้น <br>ในโรงเรียนพุทธชินราชพิทยา สามารถสมัครเข้าชมรมด้าน it 
-        <ul class="mb-1 ps-3">
-          <li>เลือกชมรมที่สนใจและกรอกข้อมูลให้ครบถ้วน</li>
-          <li>รอเรียกคัดเรียนเข้าได้ผ่านที่นี่</li>
-          <li>ตรวจสอบรายชื่อผู้สมัครและรายละเอียดชมรมได้ตลอดเวลา</li>
-        </ul>
-        <p class="card-text text-muted small">หากพบปัญหาหรือข้อเสนอแนะ ติดต่อผู้ดูแลระบบได้ที่ห้องcoding</p>
+  <div class="container" style="margin-top: 90px; max-width: 900px;">
+    <!-- หน้าแรก -->
+    <div id="home" class="container mt-4" style="margin-top: 90px;">
+      <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80" class="big-image rounded shadow" alt="big club image">
+      <div class="text-center">
+        <h1>ระบบลงทะเบียนชมรม</h1>
+        <p>เลือกชมรมที่คุณสนใจและสมัครได้เลย!</p>
+        <button class="btn btn-success btn-lg" onclick="showPage('register')">ลงทะเบียน</button>
       </div>
-    </div>
-  </div>
-  <!-- จบหน้าแรก -->
-  <div class="credit-bar text-center text-muted small py-2">
-    © 2025 พัฒนาโดย ป้อมเพชร ทองปลิว (rin_x)
-  </div>
-
-  <!-- หน้าลงทะเบียน -->
-  <div id="register" class="container mt-4" style="display:none; max-width:600px; margin-top: 90px;">
-    <h2>ลงทะเบียน</h2>
-    <p class="text-muted small mb-3">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อสมัครเข้าชมรมที่คุณสนใจ</p>
-    <form id="registerForm">
-      <div class="mb-3">
-        <label for="name" class="form-label">ชื่อจริง</label>
-        <input type="text" class="form-control" id="name" required placeholder="เช่น สมชาย ใจดี" title="กรอกชื่อจริงของคุณ">
-      </div>
-      <div class="mb-3">
-        <label for="room" class="form-label">ห้อง</label>
-        <input type="text" class="form-control" id="room" required placeholder="เช่น ม.4/1" title="กรอกห้องของคุณ">
-      </div>
-      <div class="mb-3">
-        <label for="sop" class="form-label">ข้อความ SOP</label>
-        <textarea class="form-control" id="sop" rows="4" required placeholder="บอกเหตุผลหรือแรงบันดาลใจที่อยากเข้าชมรมนี้" title="กรอกข้อความ SOP"></textarea>
-      </div>
-      <div class="mb-3">
-        <a href="#" onclick="showPage('detail')">ลิ้งคลิ๊กเพื่อดูรายละเอียด</a>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">เลือกชมรม</label>
-        <select class="form-select" id="club" required title="เลือกชมรมที่ต้องการสมัคร">
-          <option value="">-- เลือกชมรม --</option>
-          <option value="IT support">IT support</option>
-          <option value="RoboTech">RoboTech</option>
-          <option value="Full Stack Dev">Full Stack Dev</option>
-          <option value="Programmer">Programmer</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary" title="ส่งใบสมัคร">ส่งข้อมูล</button>
-    </form>
-  </div>
-
-  <!-- รายชื่อผู้สมัคร -->
-  <div id="list" class="container mt-4" style="display:none; max-width:1200px; margin-top: 90px;">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i>รายชื่อผู้สมัครชมรม</h2>
-      </div>
-    </div>
-    <!-- กล่องค้นหา -->
-    <div class="search-box mb-3">
-      <div class="row">
-        <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-search me-1"></i>ค้นหาชื่อ</label>
-          <input type="text" class="form-control" id="searchName" placeholder="พิมพ์ชื่อเพื่อค้นหา...">
+      <!-- จบเนื้อหาหลักหน้าแรก -->
+      <div class="about-box card shadow-sm mx-auto mb-3" style="max-width: 600px; border-radius: 1.2rem;">
+        <div class="card-body">
+          <h5 class="card-title mb-2" style="color:#ff6600;"><i class="bi bi-info-circle-fill me-1"></i> เกี่ยวกับระบบลงทะเบียนชมรม</h5>
+          <p class="card-text mb-1">ประชาสัมพันธ์ชมรมให้นักเรียนที่มีความสนใจ<br> สามารถสมัครเข้าชมรมด้าน it ต่างๆ <br>ในโรงเรียนพุทธชินราชพิทยา สามารถสมัครเข้าชมรมด้าน it 
+          <ul class="mb-1 ps-3">
+            <li>เลือกชมรมที่สนใจและกรอกข้อมูลให้ครบถ้วน</li>
+            <li>รอเรียกคัดเรียนเข้าได้ผ่านที่นี่</li>
+            <li>ตรวจสอบรายชื่อผู้สมัครและรายละเอียดชมรมได้ตลอดเวลา</li>
+          </ul>
+          <p class="card-text text-muted small">หากพบปัญหาหรือข้อเสนอแนะ ติดต่อผู้ดูแลระบบได้ที่ห้องcoding</p>
         </div>
-        <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-collection me-1"></i>กรองตามชมรม</label>
-          <select class="form-select" id="filterClub">
-            <option value="">ทุกชมรม</option>
+      </div>
+    </div>
+    <!-- จบหน้าแรก -->
+    <div class="credit-bar text-center text-muted small py-2">
+      © 2025 พัฒนาโดย ป้อมเพชร ทองปลิว (rin_x)
+    </div>
+
+    <!-- หน้าลงทะเบียน -->
+    <div id="register" class="container mt-4" style="display:none; max-width:600px; margin-top: 90px;">
+      <h2>ลงทะเบียน</h2>
+      <p class="text-muted small mb-3">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อสมัครเข้าชมรมที่คุณสนใจ</p>
+      <form id="registerForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">ชื่อจริง</label>
+          <input type="text" class="form-control" id="name" required placeholder="เช่น สมชาย ใจดี" title="กรอกชื่อจริงของคุณ">
+        </div>
+        <div class="mb-3">
+          <label for="room" class="form-label">ห้อง</label>
+          <input type="text" class="form-control" id="room" required placeholder="เช่น ม.4/1" title="กรอกห้องของคุณ">
+        </div>
+        <div class="mb-3">
+          <label for="sop" class="form-label">ข้อความ SOP</label>
+          <textarea class="form-control" id="sop" rows="4" required placeholder="บอกเหตุผลหรือแรงบันดาลใจที่อยากเข้าชมรมนี้ และ ข้อมูลติดต่อ" title="กรอกข้อความ SOP"></textarea>
+        </div>
+        <div class="mb-3">
+          <a href="#" onclick="showPage('detail')">คลิ๊กลิ้งเพื่อดูรายละเอียด</a>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">เลือกชมรม</label>
+          <select class="form-select" id="club" required title="เลือกชมรมที่ต้องการสมัคร">
+            <option value="">-- เลือกชมรม --</option>
+            <option value="IT support">IT support</option>
+            <option value="RoboTech">RoboTech</option>
+            <option value="Full Stack Dev">Full Stack Dev</option>
+            <option value="Programmer">Programmer</option>
           </select>
         </div>
+        <button type="submit" class="btn btn-primary" title="ส่งใบสมัคร">ส่งข้อมูล</button>
+      </form>
+    </div>
+
+    <!-- รายชื่อผู้สมัคร -->
+    <div id="list" class="container mt-4" style="display:none; max-width:1200px; margin-top: 90px;">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i>รายชื่อผู้สมัครชมรม</h2>
+        </div>
+      </div>
+      <div class="row" id="clubCards">
+        <!-- card ชมรมจะถูกเพิ่มที่นี่ด้วย JS -->
       </div>
     </div>
-    <!-- ตารางข้อมูล -->
-    <div class="table-container">
+
+    <!-- รายละเอียด -->
+    <div id="detail" class="container mt-4" style="display:none; max-width:700px; margin-top: 90px;">
+      <h2>รายละเอียดชมรม</h2>
+      <ul>
+        <li><b>IT support</b>: เรียนรู้การดูแลระบบคอมพิวเตอร์และเครือข่าย</li>
+        <li><b>RoboTech</b>: สร้างและควบคุมหุ่นยนต์</li>
+        <li><b>Full Stack Dev</b>: พัฒนาเว็บไซต์และแอปพลิเคชันแบบครบวงจร</li>
+        <li><b>Programmer</b>: ฝึกทักษะการเขียนโปรแกรมและแก้โจทย์ปัญหาเชิงตรรกะ</li>
+      </ul>
+      <button class="btn btn-secondary" onclick="showPage('register')">กลับไปลงทะเบียน</button>
+    </div>
+
+    <!-- หน้าผู้ดูแล -->
+    <div id="admin" class="container mt-4" style="display:none; max-width:900px; margin-top: 90px;">
+      <h2>ผู้ดูแลระบบ - จัดการผู้สมัคร</h2>
+      <div class="mb-3">
+        <button class="btn btn-info" onclick="showClubModal()"><i class="bi bi-people"></i> ดูรายชื่อแยกตามชมรม</button>
+      </div>
       <div class="table-responsive">
-        <table class="table table-hover" id="applicantsTable">
-          <thead class="table-dark">
+        <table class="table table-bordered table-striped">
+          <thead>
             <tr>
-              <th>ลำดับ</th>
-              <th>ชื่อ-นามสกุล</th>
+              <th>ชื่อจริง</th>
               <th>ห้อง</th>
               <th>ชมรม</th>
               <th>สถานะ</th>
-              <th>วันที่สมัคร</th>
+              <th>แก้ไขสถานะ</th>
             </tr>
           </thead>
-          <tbody id="applicantList">
+          <tbody id="adminApplicantList">
             <!-- รายชื่อจะถูกเพิ่มที่นี่ -->
           </tbody>
         </table>
       </div>
     </div>
-  </div>
 
-  <!-- รายละเอียด -->
-  <div id="detail" class="container mt-4" style="display:none; max-width:700px; margin-top: 90px;">
-    <h2>รายละเอียดชมรม</h2>
-    <ul>
-      <li><b>IT support</b>: เรียนรู้การดูแลระบบคอมพิวเตอร์และเครือข่าย</li>
-      <li><b>RoboTech</b>: สร้างและควบคุมหุ่นยนต์</li>
-      <li><b>Full Stack Dev</b>: พัฒนาเว็บไซต์และแอปพลิเคชันแบบครบวงจร</li>
-      <li><b>Programmer</b>: ฝึกทักษะการเขียนโปรแกรมและแก้โจทย์ปัญหาเชิงตรรกะ</li>
-    </ul>
-    <button class="btn btn-secondary" onclick="showPage('register')">กลับไปลงทะเบียน</button>
-  </div>
-
-  <!-- หน้าผู้ดูแล -->
-  <div id="admin" class="container mt-4" style="display:none; max-width:900px; margin-top: 90px;">
-    <h2>ผู้ดูแลระบบ - จัดการผู้สมัคร</h2>
-    <div class="mb-3">
-      <button class="btn btn-info" onclick="showClubModal()"><i class="bi bi-people"></i> ดูรายชื่อแยกตามชมรม</button>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>ชื่อจริง</th>
-            <th>ห้อง</th>
-            <th>ชมรม</th>
-            <th>สถานะ</th>
-            <th>แก้ไขสถานะ</th>
-          </tr>
-        </thead>
-        <tbody id="adminApplicantList">
-          <!-- รายชื่อจะถูกเพิ่มที่นี่ -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Modal ส่งใบสมัครสำเร็จ -->
-  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-success bg-gradient text-white">
-          <h5 class="modal-title" id="successModalLabel"><i class="bi bi-check-circle-fill me-2"></i>ส่งใบสมัครสำเร็จ</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center">
-          <p class="mb-2">ระบบได้รับข้อมูลของคุณเรียบร้อยแล้ว</p>
-          <p class="mb-0 text-success"><i class="bi bi-emoji-smile" style="font-size:2rem;"></i></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ตกลง</button>
+    <!-- Modal ส่งใบสมัครสำเร็จ -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-success bg-gradient text-white">
+            <h5 class="modal-title" id="successModalLabel"><i class="bi bi-check-circle-fill me-2"></i>ส่งใบสมัครสำเร็จ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-2">ระบบได้รับข้อมูลของคุณเรียบร้อยแล้ว</p>
+            <p class="mb-0 text-success"><i class="bi bi-emoji-smile" style="font-size:2rem;"></i></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ตกลง</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal รายชื่อแยกตามชมรม -->
-  <div class="modal fade" id="clubModal" tabindex="-1" aria-labelledby="clubModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-info bg-gradient text-white">
-          <h5 class="modal-title" id="clubModalLabel"><i class="bi bi-people me-2"></i>รายชื่อผู้สมัครแยกตามชมรม</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="clubListBody">
-          <!-- รายชื่อแยกชมรม -->
+    <!-- Modal รายชื่อแยกตามชมรม -->
+    <div class="modal fade" id="clubModal" tabindex="-1" aria-labelledby="clubModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-info bg-gradient text-white">
+            <h5 class="modal-title" id="clubModalLabel"><i class="bi bi-people me-2"></i>รายชื่อผู้สมัครแยกตามชมรม</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="clubListBody">
+            <!-- รายชื่อแยกชมรม -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Modal เลือกชมรม -->
-  <div class="modal fade" id="selectClubModal" tabindex="-1" aria-labelledby="selectClubModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-info bg-gradient text-white">
-          <h5 class="modal-title" id="selectClubModalLabel"><i class="bi bi-list-ul me-2"></i>เลือกชมรม</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Modal เลือกชมรม -->
+    <div class="modal fade" id="selectClubModal" tabindex="-1" aria-labelledby="selectClubModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-info bg-gradient text-white">
+            <h5 class="modal-title" id="selectClubModalLabel"><i class="bi bi-list-ul me-2"></i>เลือกชมรม</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <select class="form-select" id="clubSelect">
+              <option value="">-- เลือกชมรม --</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="showClubModalFromSelect()">ดูรายชื่อ</button>
+          </div>
         </div>
-        <div class="modal-body">
-          <select class="form-select" id="clubSelect">
-            <option value="">-- เลือกชมรม --</option>
-          </select>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="showClubModalFromSelect()">ดูรายชื่อ</button>
+      </div>
+    </div>
+
+    <!-- Modal ตารางรายชื่อผู้สมัครแต่ละชมรม -->
+    <div class="modal fade" id="clubApplicantsModal" tabindex="-1" aria-labelledby="clubApplicantsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-info bg-gradient text-white">
+            <h5 class="modal-title" id="clubApplicantsModalLabel"><i class="bi bi-people me-2"></i>รายชื่อผู้สมัครชมรม <span id="modalClubName"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="text-center">ลำดับ</th>
+                    <th class="text-center">ชื่อ-นามสกุล</th>
+                    <th class="text-center">ห้อง</th>
+                    <th class="text-center">สถานะ</th>
+                    <th class="text-center">วันที่สมัคร</th>
+                  </tr>
+                </thead>
+                <tbody id="clubApplicantsTableBody">
+                  <!-- รายชื่อจะถูกเพิ่มที่นี่ -->
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -564,6 +746,72 @@
       if(searchName) searchName.addEventListener('input', filterApplicants);
       if(filterClub) filterClub.addEventListener('change', filterApplicants);
     });
+
+    // เพิ่มข้อมูลชมรม
+    const clubsInfo = [
+      { name: "IT support", desc: "เรียนรู้การดูแลระบบคอมพิวเตอร์และเครือข่าย", teacher: "นายธีรภาพ กองเกียงโค" },
+      { name: "RoboTech", desc: "สร้างและควบคุมหุ่นยนต์", teacher: "นายนพคุณ ศรีพูล" },
+      { name: "Full Stack Dev", desc: "พัฒนาเว็บไซต์และแอปพลิเคชันแบบครบวงจร", teacher: "นายป้อมเพชร ทองปลิว" },
+      { name: "Programmer", desc: "ฝึกทักษะการเขียนโปรแกรมและแก้โจทย์ปัญหาเชิงตรรกะ", teacher: "นายนพคุณ ศรีพูล" }
+    ];
+
+    // ฟังก์ชันแสดง card ชมรม
+    function renderClubCards() {
+      const clubCards = document.getElementById('clubCards');
+      clubCards.innerHTML = '';
+      clubsInfo.forEach(club => {
+        clubCards.innerHTML += `
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title mb-2">${club.name}</h5>
+                <div class="mb-2"><b>ผู้สอน:</b> ${club.teacher}</div>
+                <div class="mb-3 text-muted">${club.desc}</div>
+                <button class="btn btn-info mt-auto" onclick="showClubApplicants('${club.name}')"><i class='bi bi-table'></i> ดูรายชื่อผู้สมัคร</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // ฟังก์ชันแสดง modal ตารางรายชื่อผู้สมัครของชมรมนั้น
+    function showClubApplicants(clubName) {
+      document.getElementById('modalClubName').textContent = clubName;
+      // ดึงข้อมูลผู้สมัครของชมรมนั้น
+      fetch('php/get_applicants.php?club=' + encodeURIComponent(clubName))
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.getElementById('clubApplicantsTableBody');
+          tbody.innerHTML = '';
+          if (!data.success || !data.data || data.data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan='5' class='text-center text-muted py-4'>ไม่พบข้อมูลผู้สมัคร</td></tr>`;
+            return;
+          }
+          data.data.forEach((app, idx) => {
+            const statusText = ['รอดำเนินการ', 'ผ่าน', 'ไม่ผ่าน'][app.status] || '';
+            const createdDate = new Date(app.created_at).toLocaleDateString('th-TH');
+            tbody.innerHTML += `
+              <tr>
+                <td class='text-center'>${idx + 1}</td>
+                <td>${app.name}</td>
+                <td class='text-center'>${app.room}</td>
+                <td class='text-center'>${statusText}</td>
+                <td class='text-center'>${createdDate}</td>
+              </tr>
+            `;
+          });
+        });
+      const modal = new bootstrap.Modal(document.getElementById('clubApplicantsModal'));
+      modal.show();
+    }
+
+    // เรียก renderClubCards เมื่อเข้า list
+    const oldShowPage = showPage;
+    showPage = function(page) {
+      oldShowPage(page);
+      if(page === 'list') renderClubCards();
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

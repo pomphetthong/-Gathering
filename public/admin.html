@@ -434,12 +434,15 @@
     }
 
     function changeStatus(id, val) {
+      // หา club ของ id นั้น
+      const app = applicants.find(app => app.id == id);
+      const club = app ? app.club : '';
       fetch('php/update_status.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id, status: parseInt(val) })
+        body: JSON.stringify({ id: id, status: parseInt(val), club: club })
       })
       .then(response => response.json())
       .then(data => {
@@ -542,10 +545,13 @@
 
     document.getElementById('confirmDeleteBtn').onclick = function() {
       if(!deleteId) return;
+      // หา club ของ id นั้น
+      const app = applicants.find(app => app.id == deleteId);
+      const club = app ? app.club : '';
       fetch('php/delete_applicant.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: deleteId })
+        body: JSON.stringify({ id: deleteId, club: club })
       })
       .then(res => res.json())
       .then(data => {
