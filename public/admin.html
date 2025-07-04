@@ -16,15 +16,89 @@
       color: white;
       margin-bottom: 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      min-width: 120px;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.98rem;
     }
     .stats-number {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: bold;
       margin-bottom: 5px;
     }
     .stats-label {
-      font-size: 1rem;
+      font-size: 0.95rem;
       opacity: 0.9;
+    }
+    .stats-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) {
+      .stats-row {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .stats-card {
+        min-width: 44vw;
+        max-width: 48vw;
+        min-height: 80px;
+        padding: 10px 4px;
+        font-size: 0.85rem;
+      }
+      .stats-number {
+        font-size: 1.2rem;
+      }
+      .stats-label {
+        font-size: 0.8rem;
+      }
+      .search-box .row > div {
+        margin-bottom: 10px;
+      }
+      .action-buttons {
+        flex-direction: column;
+        gap: 6px;
+      }
+      .table-container {
+        padding: 6px;
+      }
+      .table-responsive {
+        font-size: 0.92rem;
+      }
+      .navbar .navbar-brand span {
+        font-size: 1rem !important;
+      }
+      .fixed-table th, .fixed-table td {
+        min-width: unset;
+        white-space: nowrap;
+      }
+      .btn-fixed-width {
+        width: 100px !important;
+        margin: 0 auto;
+        display: block;
+      }
+    }
+    .search-box {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 0.8rem;
     }
     .table-container {
       background: white;
@@ -33,11 +107,8 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       margin-top: 20px;
     }
-    .search-box {
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
+    .table-responsive {
+      font-size: 1rem;
     }
     .status-badge {
       padding: 8px 12px;
@@ -48,29 +119,6 @@
     .status-pending { background: #fff3cd; color: #856404; }
     .status-approved { background: #d1edff; color: #0c5460; }
     .status-rejected { background: #f8d7da; color: #721c24; }
-    .action-buttons {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-    .btn-sm {
-      padding: 4px 8px;
-      font-size: 0.8rem;
-    }
-    .applicant-info {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .applicant-name {
-      font-weight: 600;
-      color: #495057;
-    }
-    .applicant-details {
-      color: #6c757d;
-      font-size: 0.9rem;
-    }
   </style>
 </head>
 <body>
@@ -105,30 +153,22 @@
     </div>
 
     <!-- สถิติ -->
-    <div class="row mb-4">
-      <div class="col-md-3">
-        <div class="stats-card text-center">
-          <div class="stats-number" id="totalApplicants">0</div>
-          <div class="stats-label">ผู้สมัครทั้งหมด</div>
-        </div>
+    <div class="stats-row">
+      <div class="stats-card">
+        <div class="stats-number" id="totalApplicants">0</div>
+        <div class="stats-label">ผู้สมัครทั้งหมด</div>
       </div>
-      <div class="col-md-3">
-        <div class="stats-card text-center" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-          <div class="stats-number" id="pendingApplicants">0</div>
-          <div class="stats-label">รอดำเนินการ</div>
-        </div>
+      <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <div class="stats-number" id="pendingApplicants">0</div>
+        <div class="stats-label">รอดำเนินการ</div>
       </div>
-      <div class="col-md-3">
-        <div class="stats-card text-center" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-          <div class="stats-number" id="approvedApplicants">0</div>
-          <div class="stats-label">ผ่าน</div>
-        </div>
+      <div class="stats-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <div class="stats-number" id="approvedApplicants">0</div>
+        <div class="stats-label">ผ่าน</div>
       </div>
-      <div class="col-md-3">
-        <div class="stats-card text-center" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-          <div class="stats-number" id="rejectedApplicants">0</div>
-          <div class="stats-label">ไม่ผ่าน</div>
-        </div>
+      <div class="stats-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <div class="stats-number" id="rejectedApplicants">0</div>
+        <div class="stats-label">ไม่ผ่าน</div>
       </div>
     </div>
 
@@ -155,7 +195,7 @@
           </select>
         </div>
         <div class="col-md-2 d-flex align-items-end">
-          <button class="btn btn-outline-secondary w-100" onclick="clearFilters()">
+          <button class="btn btn-outline-secondary w-100 btn-fixed-width" onclick="clearFilters()">
             <i class="bi bi-arrow-clockwise me-1"></i>ล้าง
           </button>
         </div>
@@ -177,17 +217,17 @@
       </div>
       
       <div class="table-responsive">
-        <table class="table table-hover" id="applicantsTable">
+        <table class="table table-hover fixed-table" id="applicantsTable">
           <thead class="table-dark">
             <tr>
-              <th>ลำดับ</th>
-              <th>ชื่อ-นามสกุล</th>
-              <th>ห้อง</th>
-              <th>ชมรม</th>
-              <th>เหตุผลการสมัคร</th>
-              <th>สถานะ</th>
-              <th>วันที่สมัคร</th>
-              <th>การดำเนินการ</th>
+              <th class="fixed-col text-center" style="min-width: 60px; white-space: nowrap;">ลำดับ</th>
+              <th class="fixed-col text-center" style="min-width: 120px; white-space: nowrap;">ชื่อ-นามสกุล</th>
+              <th class="fixed-col text-center" style="min-width: 70px; white-space: nowrap;">ห้อง</th>
+              <th class="fixed-col text-center" style="min-width: 100px; white-space: nowrap;">ชมรม</th>
+              <th class="fixed-col text-center" style="min-width: 160px; white-space: nowrap;">เหตุผลการสมัคร</th>
+              <th class="fixed-col text-center" style="min-width: 80px; white-space: nowrap;">สถานะ</th>
+              <th class="fixed-col text-center" style="min-width: 100px; white-space: nowrap;">วันที่สมัคร</th>
+              <th class="fixed-col text-center" style="min-width: 110px; white-space: nowrap;">การดำเนินการ</th>
             </tr>
           </thead>
           <tbody id="adminApplicantList">

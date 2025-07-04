@@ -8,23 +8,6 @@
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <style>
-    .stats-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 15px;
-      padding: 20px;
-      color: white;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .stats-number {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .stats-label {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
     .table-container {
       background: white;
       border-radius: 15px;
@@ -256,6 +239,75 @@
         padding-right: 0.2rem;
       }
     }
+    #clubQuotaStats {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 18px;
+      margin-left: 0;
+      margin-right: 0;
+      overflow-x: visible;
+    }
+    .stats-scroll-x {
+      display: flex;
+      flex-direction: row;
+      gap: 18px;
+      overflow-x: auto;
+      padding: 10px 0 10px 0;
+      justify-content: flex-start;
+      align-items: stretch;
+      scroll-behavior: smooth;
+    }
+    .stats-card {
+      min-width: 180px;
+      flex: 0 0 auto;
+      background: linear-gradient(135deg, #e3f0ff 60%, #b3e0ff 100%);
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(52,152,253,0.10);
+      padding: 22px 18px 16px 18px;
+      text-align: center;
+      transition: transform 0.15s;
+      position: relative;
+    }
+    .stats-card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 24px rgba(52,152,253,0.18);
+    }
+    .stats-card i {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      color: #2196f3;
+    }
+    .stats-number {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1565c0;
+    }
+    .stats-label {
+      font-size: 1rem;
+      color: #888;
+      margin-top: 4px;
+    }
+    .club-name {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 2px;
+      color: #333;
+    }
+    @media (max-width: 600px) {
+      .stats-card {
+        min-width: 140px;
+        padding: 14px 6px 10px 6px;
+      }
+      .stats-card i {
+        font-size: 1.7rem;
+      }
+      .stats-number {
+        font-size: 1.3rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -301,7 +353,7 @@
         <p>เลือกชมรมที่คุณสนใจและสมัครได้เลย!</p>
         <button class="btn btn-success btn-lg" onclick="showPage('register')">ลงทะเบียน</button>
         <!-- จุดแสดงจำนวนที่รับของแต่ละชมรม -->
-        <div id="clubQuotaStats" class="row justify-content-center mt-4 mb-2"></div>
+        <div class="stats-scroll-x mt-4 mb-2"><div id="clubQuotaStats"></div></div>
       </div>
       <!-- จบเนื้อหาหลักหน้าแรก -->
       <div class="about-box card shadow-sm mx-auto mb-3" style="max-width: 600px; border-radius: 1.2rem;">
@@ -363,9 +415,14 @@
           <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i>รายชื่อผู้สมัครชมรม</h2>
         </div>
       </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+        </div>
+      </div>
       <div class="row" id="clubCards">
         <!-- card ชมรมจะถูกเพิ่มที่นี่ด้วย JS -->
       </div>
+      <!-- ตารางรายชื่อผู้สมัครถูกซ่อนตามคำขอ -->
     </div>
 
     <!-- รายละเอียด -->
@@ -568,8 +625,8 @@
 
     function updateApplicantList() {
       const applicantList = document.getElementById('applicantList');
+      if (!applicantList) return;
       applicantList.innerHTML = '';
-      
       if (filteredApplicants.length === 0) {
         applicantList.innerHTML = `
           <tr>
@@ -581,7 +638,6 @@
         `;
         return;
       }
-
       filteredApplicants.forEach((app, index) => {
         const tr = document.createElement('tr');
         const statusClass = app.status == 0 ? 'status-pending' : (app.status == 1 ? 'status-approved' : 'status-rejected');
@@ -724,6 +780,7 @@
 
     function updateClubFilter() {
       const clubFilter = document.getElementById('filterClub');
+      if (!clubFilter) return;
       const clubs = [...new Set(applicants.map(app => app.club))];
       clubFilter.innerHTML = '<option value="">ทุกชมรม</option>';
       clubs.forEach(club => {
@@ -732,22 +789,28 @@
     }
 
     function filterApplicants() {
-      const searchName = document.getElementById('searchName').value.toLowerCase();
       const filterClub = document.getElementById('filterClub').value;
       filteredApplicants = applicants.filter(app => {
-        const nameMatch = app.name.toLowerCase().includes(searchName);
         const clubMatch = filterClub === '' || app.club === filterClub;
-        return nameMatch && clubMatch;
+        return clubMatch;
       });
       updateApplicantList();
     }
 
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
-      const searchName = document.getElementById('searchName');
       const filterClub = document.getElementById('filterClub');
-      if(searchName) searchName.addEventListener('input', filterApplicants);
       if(filterClub) filterClub.addEventListener('change', filterApplicants);
+      loadApplicants(); // โหลดข้อมูลทันทีเมื่อเข้าเว็บ เพื่อให้สถิติแสดงทันที
+      // อัปเดตข้อมูลอัตโนมัติทุก 10 วินาที
+      setInterval(() => {
+        // อัปเดตเฉพาะถ้าอยู่หน้า home หรือ list
+        const home = document.getElementById('home');
+        const list = document.getElementById('list');
+        if ((home && home.style.display !== 'none') || (list && list.style.display !== 'none')) {
+          loadApplicants();
+        }
+      }, 10000);
     });
 
     // เพิ่มข้อมูลชมรม
@@ -814,6 +877,7 @@
     showPage = function(page) {
       oldShowPage(page);
       if(page === 'list') renderClubCards();
+      if(page === 'home') updateClubQuotaStats();
     }
 
     // --- เพิ่มฟังก์ชันแสดงจำนวนที่รับของแต่ละชมรม ---
@@ -836,14 +900,12 @@
       });
       // สร้าง HTML
       let html = '';
-      clubs.forEach(c => {
-        html += `<div class='col-12 col-md-6 col-lg-3 mb-2'>
-          <div class='stats-card text-center py-3' style='background:linear-gradient(135deg,#b3e0ff 0%,#90caf9 100%);color:#1976d2;'>
-            <i class='bi ${c.icon}' style='font-size:2rem;'></i><br>
-            <span style='font-size:1.1rem;font-weight:500;'>${c.name}</span><br>
-            <span class='stats-number' style='color:#1976d2;'>${passed[c.name]||0} <span style='font-size:1.2rem;'>/ ${maxPerClub}</span></span>
-            <div class='stats-label' style='color:#1976d2;'>จำนวนที่รับ</div>
-          </div>
+      clubs.forEach((c, idx) => {
+        html += `<div class='stats-card stats-bg${(idx%4)+1}'>
+            <i class='bi ${c.icon}'></i><br>
+            <span class='club-name'${c.name==='Full Stack Dev' ? " style='white-space:nowrap;'" : ''}>${c.name}</span><br>
+            <span class='stats-number'>${passed[c.name]||0} <span style='font-size:1.2rem;'>/ ${maxPerClub}</span></span>
+            <div class='stats-label'>จำนวนที่รับ</div>
         </div>`;
       });
       document.getElementById('clubQuotaStats').innerHTML = html;
