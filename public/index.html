@@ -300,6 +300,8 @@
         <h1>ระบบลงทะเบียนชมรม</h1>
         <p>เลือกชมรมที่คุณสนใจและสมัครได้เลย!</p>
         <button class="btn btn-success btn-lg" onclick="showPage('register')">ลงทะเบียน</button>
+        <!-- จุดแสดงจำนวนที่รับของแต่ละชมรม -->
+        <div id="clubQuotaStats" class="row justify-content-center mt-4 mb-2"></div>
       </div>
       <!-- จบเนื้อหาหลักหน้าแรก -->
       <div class="about-box card shadow-sm mx-auto mb-3" style="max-width: 600px; border-radius: 1.2rem;">
@@ -554,6 +556,7 @@
             filteredApplicants = [...applicants];
             updateApplicantList();
             updateClubFilter();
+            updateClubQuotaStats();
           } else {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', data.message);
           }
@@ -811,6 +814,39 @@
     showPage = function(page) {
       oldShowPage(page);
       if(page === 'list') renderClubCards();
+    }
+
+    // --- เพิ่มฟังก์ชันแสดงจำนวนที่รับของแต่ละชมรม ---
+    function updateClubQuotaStats() {
+      // รายชื่อชมรม
+      const clubs = [
+        { name: 'IT support', icon: 'bi-tools' },
+        { name: 'RoboTech', icon: 'bi-robot' },
+        { name: 'Full Stack Dev', icon: 'bi-laptop' },
+        { name: 'Programmer', icon: 'bi-code-slash' }
+      ];
+      const maxPerClub = 5;
+      // นับจำนวนที่ผ่านในแต่ละชมรม
+      const passed = {};
+      clubs.forEach(c => passed[c.name] = 0);
+      applicants.forEach(app => {
+        if(app.status == 1 && passed.hasOwnProperty(app.club)) {
+          passed[app.club]++;
+        }
+      });
+      // สร้าง HTML
+      let html = '';
+      clubs.forEach(c => {
+        html += `<div class='col-12 col-md-6 col-lg-3 mb-2'>
+          <div class='stats-card text-center py-3' style='background:linear-gradient(135deg,#b3e0ff 0%,#90caf9 100%);color:#1976d2;'>
+            <i class='bi ${c.icon}' style='font-size:2rem;'></i><br>
+            <span style='font-size:1.1rem;font-weight:500;'>${c.name}</span><br>
+            <span class='stats-number' style='color:#1976d2;'>${passed[c.name]||0} <span style='font-size:1.2rem;'>/ ${maxPerClub}</span></span>
+            <div class='stats-label' style='color:#1976d2;'>จำนวนที่รับ</div>
+          </div>
+        </div>`;
+      });
+      document.getElementById('clubQuotaStats').innerHTML = html;
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
