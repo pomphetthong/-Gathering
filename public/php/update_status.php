@@ -18,6 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     try {
+        if ($status == 1) { // ถ้าจะเปลี่ยนเป็น "ผ่าน"
+            // ดึง club ของผู้สมัครคนนี้
+            $stmt = $pdo->prepare("SELECT club FROM applicants WHERE id = ?");
+            $stmt->execute([$id]);
+            $row = $stmt->fetch();
+            if (!$row) {
+                echo json_encode(['success' => false, 'message' => 'ไม่พบข้อมูลผู้สมัคร']);
+                exit;
+            }
+            $club = $row['club'];
+            // นับจำนวนผู้ที่ผ่านในชมรมนี้
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM applicants WHERE club = ? AND status = 1");
+            $stmt->execute([$club]);
+            $count = $stmt->fetchColumn();
+            if ($count >= 5) {
+                echo json_encode(['success' => false, 'message' => 'จำนวนผู้ผ่านในชมรมนี้ครบ 5 คนแล้ว']);
+                exit;
+            }
+        }
         $stmt = $pdo->prepare("UPDATE applicants SET status = ? WHERE id = ?");
         $stmt->execute([$status, $id]);
         if ($stmt->rowCount() > 0) {

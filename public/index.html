@@ -362,7 +362,7 @@
           <p class="card-text mb-1">ประชาสัมพันธ์ชมรมให้นักเรียนที่มีความสนใจ<br> สามารถสมัครเข้าชมรมด้าน it ต่างๆ <br>ในโรงเรียนพุทธชินราชพิทยา สามารถสมัครเข้าชมรมด้าน it 
           <ul class="mb-1 ps-3">
             <li>เลือกชมรมที่สนใจและกรอกข้อมูลให้ครบถ้วน</li>
-            <li>รอเรียกคัดเรียนเข้าได้ผ่านที่นี่</li>
+            <li>รอเรียกคัดเลือกเข้าได้ผ่านข้อมูลที่ส่ง</li>
             <li>ตรวจสอบรายชื่อผู้สมัครและรายละเอียดชมรมได้ตลอดเวลา</li>
           </ul>
           <p class="card-text text-muted small">หากพบปัญหาหรือข้อเสนอแนะ ติดต่อผู้ดูแลระบบได้ที่ห้องcoding</p>
@@ -433,6 +433,7 @@
         <li><b>RoboTech</b>: สร้างและควบคุมหุ่นยนต์</li>
         <li><b>Full Stack Dev</b>: พัฒนาเว็บไซต์และแอปพลิเคชันแบบครบวงจร</li>
         <li><b>Programmer</b>: ฝึกทักษะการเขียนโปรแกรมและแก้โจทย์ปัญหาเชิงตรรกะ</li>
+        <li>กรุณากรอกข้อมูลส่วนตัว และ ข้อมูลติดต่อ ให้ครบถ้วน<br><b>--คำตัดสินของผู้รับสมัครถือเป็นที่สิ้นสุด--</b></li>
       </ul>
       <button class="btn btn-secondary" onclick="showPage('register')">กลับไปลงทะเบียน</button>
     </div>
@@ -540,6 +541,24 @@
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal แจ้งเตือน quota เต็ม -->
+    <div class="modal fade" id="quotaFullModal" tabindex="-1" aria-labelledby="quotaFullModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger bg-gradient text-white">
+            <h5 class="modal-title" id="quotaFullModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>ไม่สามารถอนุมัติได้</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-2" id="quotaFullMsg">จำนวนผู้ผ่านในชมรมนี้ครบ 5 คนแล้ว</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ตกลง</button>
           </div>
         </div>
       </div>
@@ -749,7 +768,14 @@
         if (data.success) {
           loadApplicants(); // โหลดข้อมูลใหม่
         } else {
-          alert('เกิดข้อผิดพลาด: ' + data.message);
+          // ถ้า quota เต็ม ให้แสดง modal แทน alert
+          if (data.message && data.message.includes('ครบ 5 คน')) {
+            document.getElementById('quotaFullMsg').textContent = data.message;
+            const modal = new bootstrap.Modal(document.getElementById('quotaFullModal'));
+            modal.show();
+          } else {
+            alert('เกิดข้อผิดพลาด: ' + data.message);
+          }
         }
       })
       .catch(error => {
