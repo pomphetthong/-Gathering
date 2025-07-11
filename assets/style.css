@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+    background: #fff !important;
     min-height: 100vh;
     font-family: 'Sarabun', 'Prompt', 'Kanit', Arial, sans-serif;
   }
@@ -29,7 +29,7 @@ body {
     opacity: 0.5;
   }
   .container {
-    background: rgba(255,255,255,0.97);
+    background: transparent !important;
     border-radius: 1.25rem;
     box-shadow: 0 2px 16px rgba(0,188,212,0.08);
     padding: 2rem 2.5rem 2.5rem 2.5rem;
@@ -122,7 +122,7 @@ body {
     transition: color 0.2s;
   }
   a:hover {
-    color: #0097a7;
+    color: #cddbfe;
   }
   @media (max-width: 600px) {
     .container {
@@ -204,9 +204,8 @@ body {
     }
   }
   .custom-navbar {
-    background: #ffffff !important;
+    background: transparent !important;
     border-radius: 0 0 1.2rem 1.2rem;
-    box-shadow: 0 2px 12px rgba(0, 188, 212, 0.07), 0 1.5px 0 #b2ebf2;
     position: fixed;
     top: 0;
     left: 0;
@@ -217,7 +216,7 @@ body {
     padding-bottom: 0.2rem;
   }
   .custom-navbar .navbar-brand {
-    color: #00bcd4 !important;
+    color: #222 !important;
     font-size: 1.35rem;
     font-weight: bold;
     letter-spacing: 1px;
@@ -264,6 +263,15 @@ body {
     .custom-navbar .navbar-brand i {
       font-size: 1.1rem !important;
       margin-right: 0.2rem;
+    }
+  }
+  @media (max-width: 600px) {
+    .custom-navbar .navbar-brand,
+    .custom-navbar .navbar-brand span {
+      white-space: nowrap !important;
+    }
+    .custom-navbar .navbar-brand span {
+      font-size: 0.95rem !important;
     }
   }
   /* เว้นระยะ container ให้ไม่ถูก navbar ทับ */

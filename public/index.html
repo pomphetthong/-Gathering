@@ -160,7 +160,19 @@
     }
     .offcanvas-header,
     .offcanvas-body {
-      background: #e3f0ff;
+      background: #fff !important;
+      border-top-left-radius: 1.2rem !important;
+      border-bottom-left-radius: 1.2rem !important;
+      border-top-right-radius: 1.2rem !important;
+      border-bottom-right-radius: 0 !important;
+    }
+    .offcanvas {
+      box-shadow: 0 2px 12px rgba(52,152,253,0.07);
+      border-top-left-radius: 1.2rem !important;
+      border-bottom-left-radius: 1.2rem !important;
+      border-top-right-radius: 1.2rem !important;
+      border-bottom-right-radius: 0 !important;
+      transition: transform 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.45s cubic-bezier(0.4,0,0.2,1);
     }
     .offcanvas-title {
       color: #1976d2;
@@ -308,15 +320,118 @@
         font-size: 1.3rem;
       }
     }
+    .responsive-title {
+      font-size: 1.35rem; /* Default for larger screens */
+    }
+    @media (max-width: 900px) {
+      .responsive-title {
+        font-size: 1.1rem; /* Adjust for smaller screens */
+      }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    .fade-in.show {
+      opacity: 1;
+      transform: none;
+    }
+    #loadingOverlay {
+      position: fixed;
+      z-index: 20000;
+      inset: 0;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s;
+    }
+    .loading-icon {
+      font-size: 4.5rem;
+      color: #2196f3;
+      animation: spin 1.2s cubic-bezier(0.4,0,0.2,1) infinite, pop 1.5s cubic-bezier(0.4,0,0.2,1);
+      filter: drop-shadow(0 4px 24px #2196f399);
+    }
+    @keyframes spin {
+      0% { transform: scale(1.08) rotate(0deg); }
+      80% { transform: scale(1.08) rotate(288deg); }
+      100% { transform: scale(1) rotate(360deg); }
+    }
+    @keyframes pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      30% { transform: scale(1.15); opacity: 1; }
+      60% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    #loadingOverlay.hide {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s;
+    }
+    @media (max-width: 600px) {
+      #totalApplicants {
+        font-size: 0.82rem !important;
+        padding: 0.13em 0.45em !important;
+        min-width: 40px !important;
+        border-radius: 0.7em !important;
+        gap: 0.15em !important;
+      }
+      #totalApplicantsNum {
+        font-size: 1em !important;
+      }
+    }
+    #clubSummaryTable {
+      min-width: 420px;
+      max-width: 100%;
+      width: 480px;
+      table-layout: fixed;
+      margin: 0 auto;
+    }
+    #clubSummaryTable th, #clubSummaryTable td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #clubSummaryTable th:nth-child(1), #clubSummaryTable td:nth-child(1) { width: 38%; }
+    #clubSummaryTable th:nth-child(2), #clubSummaryTable td:nth-child(2) { width: 20%; }
+    #clubSummaryTable th:nth-child(3), #clubSummaryTable td:nth-child(3) { width: 22%; }
+    #clubSummaryTable th:nth-child(4), #clubSummaryTable td:nth-child(4) { width: 20%; }
+    @media (max-width: 600px) {
+      .table-responsive { overflow-x: auto !important; }
+      #clubSummaryTable { width: 600px; min-width: 520px; font-size: 0.95rem; }
+      #clubSummaryTable th, #clubSummaryTable td { padding: 0.3em 0.2em; }
+    }
+    .btn-register-hero {
+      background: linear-gradient(90deg, #00c6fb 0%, #005bea 100%);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 1.5em;
+      padding: 0.55em 1.5em;
+      box-shadow: 0 4px 24px #005bea33;
+      transition: background 0.22s, box-shadow 0.22s, transform 0.18s;
+      letter-spacing: 0.5px;
+    }
+    .btn-register-hero:hover, .btn-register-hero:focus {
+      background: linear-gradient(90deg, #005bea 0%, #00c6fb 100%);
+      color: #fff;
+      box-shadow: 0 8px 32px #005bea55;
+      transform: scale(1.06);
+    }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg shadow-sm" style="background:#fff !important;">
+  <div id="loadingOverlay">
+    <i class="bi bi-megaphone-fill loading-icon"></i>
+  </div>
+  <nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background:#fff !important; border-radius: 0 0 1.2rem 1.2rem; box-shadow: 0 2px 12px rgba(52,152,253,0.07); margin-top: 0;">
     <div class="container-fluid">
       <span class="navbar-brand d-flex align-items-center gap-2" style="cursor:pointer;">
-        <span style="background:#e3f0ff; border-radius:1.2rem; padding:0.3rem 1.2rem; display:inline-flex; align-items:center; gap:0.7rem;">
+        <span style="border-radius:1.2rem; padding:0.3rem 1.2rem; display:inline-flex; align-items:center; gap:0.7rem;">
           <i class="bi bi-megaphone-fill" style="font-size:1.7rem;color:#ff9b05;"></i>
-          <span class="fw-bold" style="color:#2196f3;font-size:1.35rem;letter-spacing:1px;">ประชาสัมพันธ์ชมรม</span>
+          <span class="fw-bold responsive-title">ประชาสัมพันธ์ชมรม</span>
         </span>
       </span>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-controls="mobileNav">
@@ -349,13 +464,13 @@
   <div class="container" style="margin-top: 90px; max-width: 900px;">
     <!-- หน้าแรก -->
     <div id="home" class="container mt-4 position-relative overflow-hidden" style="margin-top: 90px; padding:0; min-height: 480px;">
-      <div class="hero-bg-image position-relative" style="width:100%; min-height: 320px;">
+      <div class="hero-bg-image position-relative" style="width:100%; min-height: 320px; border-radius:1.2rem; overflow:hidden;">
         <div style="background:rgba(0,0,0,0.35); position:absolute; inset:0; z-index:2;"></div>
-        <img src="https://i.ytimg.com/vi/oaSQaRa1JzA/maxresdefault.jpg" alt="big club image" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.8); position:absolute; inset:0; z-index:1;">
+        <img src="https://i.ytimg.com/vi/oaSQaRa1JzA/maxresdefault.jpg" alt="big club image" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.8); position:absolute; inset:0; z-index:1; border-radius:1.2rem;">
         <div class="text-center d-flex flex-column justify-content-center align-items-center" style="position:relative; z-index:3; min-height: 320px; padding: 3rem 1rem 2rem 1rem;">
           <h1 style="color:#fff; text-shadow:0 2px 16px #000,0 1px 0 #333; font-size:2.5rem; font-weight:800;">ระบบลงทะเบียนชมรม</h1>
           <p style="color:#ffe066; font-size:1.05rem; text-shadow:0 1px 8px #000;">เลือกชมรมที่คุณสนใจและสมัครได้เลย!</p>
-          <button class="btn btn-success btn-lg shadow" style="font-size:1.3rem; font-weight:700; box-shadow:0 4px 24px #0005; padding:0.8rem 2.5rem; border-radius:2rem;" onclick="showPage('register')">ลงทะเบียน</button>
+          <button class="btn btn-register-hero shadow" style="margin-top:0.5em;" onclick="showPage('register')">ลงทะเบียน</button>
         </div>
       </div>
       <div class="stats-scroll-x mt-4 mb-2"><div id="clubQuotaStats"></div></div>
@@ -378,7 +493,7 @@
     </div>
 
     <!-- หน้าลงทะเบียน -->
-    <div id="register" class="container mt-4" style="display:none; max-width:600px; margin-top: 90px;">
+    <div id="register" class="container mt-4 fade-in" style="display:none; max-width:600px; margin-top: 90px;">
       <h2>ลงทะเบียน</h2>
       <p class="text-muted small mb-3">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อสมัครเข้าชมรมที่คุณสนใจ</p>
       <form id="registerForm">
@@ -412,10 +527,17 @@
     </div>
 
     <!-- รายชื่อผู้สมัคร -->
-    <div id="list" class="container mt-4" style="display:none; max-width:1200px; margin-top: 90px;">
+    <div id="list" class="container mt-4 fade-in" style="display:none; max-width:1200px; margin-top: 90px;">
       <div class="row">
         <div class="col-12">
-          <h2 class="mb-4"><i class="bi bi-people-fill me-2"></i>รายชื่อผู้สมัครชมรม</h2>
+          <h2 class="mb-4 d-flex align-items-center justify-content-between gap-2">
+            <span><i class="bi bi-people-fill me-2"></i>รายชื่อผู้สมัครชมรม</span>
+            <span id="totalApplicants" style="background:#e3f4fd; color:#1976d2; font-size:1.18rem; font-weight:500; border-radius:1.5em; padding:0.45em 1.2em; min-width:110px; text-align:center; box-shadow:0 2px 8px #1976d211; display:flex; align-items:center; gap:0.5em;">
+              <span style="font-weight:400;">ผู้สมัครทั้งหมด</span>
+              <span id="totalApplicantsNum" style="font-size:1.45em; font-weight:700; color:#0d47a1;"></span>
+              <span style="font-size:1em; font-weight:400; color:#1976d2;">คน</span>
+            </span>
+          </h2>
         </div>
       </div>
       <div class="row mb-3">
@@ -429,8 +551,23 @@
     </div>
 
     <!-- รายละเอียด -->
-    <div id="detail" class="container mt-4" style="display:none; max-width:700px; margin-top: 90px;">
+    <div id="detail" class="container mt-4 fade-in" style="display:none; max-width:700px; margin-top: 90px;">
       <h2>รายละเอียดชมรม</h2>
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered align-middle text-center" id="clubSummaryTable">
+          <thead class="table-light">
+            <tr>
+              <th>ชมรม</th>
+              <th>จำนวนผู้สมัคร</th>
+              <th>จำนวนที่ผ่าน</th>
+              <th>จำนวนที่รับ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ข้อมูลจะถูกเติมด้วย JS -->
+          </tbody>
+        </table>
+      </div>
       <ul>
         <li><b>IT support</b>: เรียนรู้การดูแลระบบคอมพิวเตอร์และเครือข่าย</li>
         <li><b>RoboTech</b>: สร้างและควบคุมหุ่นยนต์</li>
@@ -438,7 +575,9 @@
         <li><b>Programmer</b>: ฝึกทักษะการเขียนโปรแกรมและแก้โจทย์ปัญหาเชิงตรรกะ</li>
         <li>กรุณากรอกข้อมูลส่วนตัว และ ข้อมูลติดต่อ ให้ครบถ้วน<br><b>--คำตัดสินของผู้รับสมัครถือเป็นที่สิ้นสุด--</b></li>
       </ul>
-      <button class="btn btn-secondary" onclick="showPage('register')">กลับไปลงทะเบียน</button>
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" onclick="showPage('register')">กลับไปลงทะเบียน</button>
+      </div>
     </div>
 
     <!-- หน้าผู้ดูแล -->
@@ -566,24 +705,50 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal เตือนจำนวนผู้ผ่านเกิน -->
+    <div class="modal fade" id="clubQuotaOverModal" tabindex="-1" aria-labelledby="clubQuotaOverModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="clubQuotaOverModalLabel">แจ้งเตือน</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="clubQuotaOverMsg">
+            จำนวนผู้ผ่านเกินจำนวนที่กำหนดในบางชมรม กรุณาตรวจสอบ!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
     // ฟังก์ชันเปลี่ยนหน้า
     function showPage(page) {
-      document.getElementById('home').style.display = 'none';
-      document.getElementById('register').style.display = 'none';
-      document.getElementById('list').style.display = 'none';
-      document.getElementById('detail').style.display = 'none';
-      document.getElementById('admin').style.display = 'none';
-      
+      const pages = ['home', 'register', 'list', 'detail', 'admin'];
+      pages.forEach(function(p) {
+        const el = document.getElementById(p);
+        if(el) {
+          el.style.display = 'none';
+          el.classList.remove('show');
+        }
+      });
       if(page === 'list') {
         loadApplicants();
+        setTimeout(updateApplicantList, 500); // เพิ่มบรรทัดนี้เพื่อให้แน่ใจว่าอัปเดตตัวเลข
       } else if(page === 'admin') {
         updateAdminApplicantList();
       }
-      
-      document.getElementById(page).style.display = '';
+      const showEl = document.getElementById(page);
+      if(showEl) {
+        showEl.style.display = '';
+        setTimeout(function() {
+          showEl.classList.add('show');
+        }, 50);
+      }
     }
 
     // ฟังก์ชันบันทึกข้อมูลผู้สมัคร
@@ -633,6 +798,9 @@
           if (data.success) {
             applicants = data.data;
             filteredApplicants = [...applicants];
+            // อัปเดตจำนวนผู้สมัครทันที
+            const totalSpan = document.getElementById('totalApplicantsNum');
+            if(totalSpan) totalSpan.textContent = filteredApplicants.length;
             updateApplicantList();
             updateClubFilter();
             updateClubQuotaStats();
@@ -649,6 +817,9 @@
       const applicantList = document.getElementById('applicantList');
       if (!applicantList) return;
       applicantList.innerHTML = '';
+      // แสดงจำนวนผู้สมัครทั้งหมด
+      const totalSpan = document.getElementById('totalApplicantsNum');
+      if(totalSpan) totalSpan.textContent = filteredApplicants.length;
       if (filteredApplicants.length === 0) {
         applicantList.innerHTML = `
           <tr>
@@ -840,6 +1011,21 @@
           loadApplicants();
         }
       }, 10000);
+
+      var hero = document.getElementById('home');
+      if(hero) {
+        hero.classList.add('fade-in');
+        setTimeout(function() {
+          hero.classList.add('show');
+        }, 100); // delay for smoothness
+      }
+      var overlay = document.getElementById('loadingOverlay');
+      if(overlay) {
+        setTimeout(function() {
+          overlay.classList.add('hide');
+          setTimeout(function(){ overlay.style.display = 'none'; }, 900);
+        }, 1500); // แสดง splash นานขึ้น
+      }
     });
 
     // เพิ่มข้อมูลชมรม
@@ -929,7 +1115,9 @@
       });
       // สร้าง HTML
       let html = '';
+      let overLimit = [];
       clubs.forEach((c, idx) => {
+        if ((passed[c.name]||0) > maxPerClub) overLimit.push(c.name);
         html += `<div class='stats-card stats-bg${(idx%4)+1}'>
             <i class='bi ${c.icon}'></i><br>
             <span class='club-name'${c.name==='Full Stack Dev' ? " style='white-space:nowrap;'" : ''}>${c.name}</span><br>
@@ -938,6 +1126,42 @@
         </div>`;
       });
       document.getElementById('clubQuotaStats').innerHTML = html;
+      // ถ้ามีชมรมที่เกิน quota ให้แสดง popup
+      if (overLimit.length > 0) {
+        document.getElementById('clubQuotaOverMsg').textContent = `ชมรมต่อไปนี้มีจำนวนผู้ผ่านเกินที่กำหนด: ${overLimit.join(', ')} (รับได้ ${maxPerClub} คน)`;
+        const modal = new bootstrap.Modal(document.getElementById('clubQuotaOverModal'));
+        modal.show();
+      }
+    }
+
+    function renderClubSummaryTable() {
+      const clubs = [
+        { name: 'IT support', quota: 5 },
+        { name: 'RoboTech', quota: 5 },
+        { name: 'Full Stack Dev', quota: 5 },
+        { name: 'Programmer', quota: 5 }
+      ];
+      const tbody = document.querySelector('#clubSummaryTable tbody');
+      if (!tbody) return;
+      let html = '';
+      clubs.forEach(club => {
+        const total = applicants.filter(app => app.club === club.name).length;
+        const passed = applicants.filter(app => app.club === club.name && app.status == 1).length;
+        html += `<tr>
+          <td>${club.name}</td>
+          <td>${total}</td>
+          <td>${passed}</td>
+          <td>${club.quota}</td>
+        </tr>`;
+      });
+      tbody.innerHTML = html;
+    }
+
+    // เรียก renderClubSummaryTable ทุกครั้งที่เปลี่ยนไปหน้า detail
+    const oldShowPage2 = showPage;
+    showPage = function(page) {
+      oldShowPage2(page);
+      if(page === 'detail') renderClubSummaryTable();
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
