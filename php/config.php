@@ -1,8 +1,8 @@
 <?php
-$host = 'mysql';
-$db   = 'mydatabase';
-$user = 'club_user';
-$pass = 'club_password';
+$host = 'localhost';
+$db   = 's20034';
+$user = 's20034';
+$pass = 'Bdc@std';
 $charset = 'utf8';
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
